@@ -4,16 +4,14 @@
 <meta charset="utf-8">
 <title>리스트를 이용한 메뉴 만들기</title>
 <link rel="stylesheet" type="text/css" href="/ch05/css/tabbox.css"></link>
-<script src="/ch05/js/tabBox.js"></script>
+<script src='https://code.jquery.com/jquery-3.7.1.min.js'></script>
 <script>
-tabBox.init();
-
-window.n = '둘리';
-console.log(window.n, n);
-
-var e = 'dooly@gmail.com';
-console.log(window.e, e);
-	
+$(function(){
+	$(".tab-box li").click(function(){
+		$('.tab-box li.selected').removeClass('selected');
+		$(this).addClass('selected');
+	});
+});	
 </script>
 </head>
 <body>
