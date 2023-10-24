@@ -27,3 +27,5 @@ o2.info = function() {
     console.log('안 알라쥼~');
 }
 o2.info();
+
+
