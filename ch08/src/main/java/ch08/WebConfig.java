@@ -2,7 +2,6 @@ package ch08;
 
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +22,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"ch08.controller"}) // controller scan을 위해서
+@ComponentScan({"ch08.controller"})
 public class WebConfig implements WebMvcConfigurer {
 	@Bean
 	public ViewResolver viewResolver() {
@@ -31,23 +30,19 @@ public class WebConfig implements WebMvcConfigurer {
 		viewResolver.setViewClass(JstlView.class);
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
-		viewResolver.setExposeContextBeansAsAttributes(true);
-		viewResolver.setExposedContextBeanNames("site");
-				
 		return viewResolver;
 	}
 	
 	@Bean
 	public StringHttpMessageConverter stringHttpMessageConverter() {
-		StringHttpMessageConverter messageConverter = new StringHttpMessageConverter();
-		
-		messageConverter.setSupportedMediaTypes(
-				Arrays.asList(
-						new MediaType("text", "html", Charset.forName("utf-8"))
-				)
+		StringHttpMessageConverter messageConveter = new StringHttpMessageConverter();
+		messageConveter.setSupportedMediaTypes(
+			Arrays.asList(
+				new MediaType("text", "html", Charset.forName("utf-8"))
+			)
 		);
 		
-		return messageConverter;
+		return messageConveter;
 	}
 	
 	@Bean
@@ -55,11 +50,15 @@ public class WebConfig implements WebMvcConfigurer {
 		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
 				.indentOutput(true)
 				.dateFormat(new SimpleDateFormat("yyyy-mm-dd"));
-//		builder.indentOutput(true);
-//		builder.dateFormat(new SimpleDateFormat("yyyy-mm-dd"));
 		
-		MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter(builder.build());
-		return messageConverter;
+		MappingJackson2HttpMessageConverter messageConveter = new MappingJackson2HttpMessageConverter(builder.build());
+		messageConveter.setSupportedMediaTypes(
+			Arrays.asList(
+				new MediaType("application", "json", Charset.forName("utf-8"))
+			)
+		);		
+		
+		return messageConveter;
 	}
 	
 	@Override
@@ -71,5 +70,5 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
-	}
+	}	
 }
